@@ -3,7 +3,7 @@ import { join } from 'path'
 import { isLocal, isProductionBuild } from '@xdn/core/environment'
 import { BACKENDS } from '@xdn/core/constants'
 import renderNuxtPage from './renderNuxtPage'
-import { watch } from 'fs'
+import { watch, existsSync, writeFileSync, mkdirSync } from 'fs'
 import { Router, ResponseWriter } from '@xdn/core/router'
 import RouteGroup from '@xdn/core/router/RouteGroup'
 import { NuxtConfig } from './NuxtConfig'
@@ -51,11 +51,19 @@ export default class NuxtRoutes extends PluginBase {
    */
   constructor() {
     super()
-    this.routesJsonPath = join(process.cwd(), '.nuxt', 'routes.json')
+    const nuxtDir = join(process.cwd(), '.nuxt')
+    this.routesJsonPath = join(nuxtDir, 'routes.json')
 
     if (isProductionBuild()) {
       this.config = <NuxtConfig>JSON.parse(readAsset(join(process.cwd(), XDN_NUXT_CONFIG_PATH)))
     } else {
+      if (!existsSync(nuxtDir)) {
+        mkdirSync(nuxtDir)
+      }
+      if (!existsSync(this.routesJsonPath)) {
+        writeFileSync(this.routesJsonPath, JSON.stringify([]))
+      }
+
       watch(this.routesJsonPath, eventType => {
         if (eventType === 'change' && this.loadNuxtRoutes()) {
           this.updateRoutes()

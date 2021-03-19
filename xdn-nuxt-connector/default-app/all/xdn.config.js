@@ -6,4 +6,5 @@
 module.exports = {
   backends: {},
   includeNodeModules: true,
+  connector: '@xdn/nuxt',
 }
