@@ -25,7 +25,8 @@ export const toRouteSyntax = (
   let route = slash(
     pagePath
       .replace(/^\//, '') // replace the leading slash if present so we can accept both products/[id].js and /products/[id]
-      .replace(/\[\.\.\.([^\]]+)\]/g, ':$1*') // replace [...path] with :path*
+      .replace(/\[\[\.\.\.([^\]]+)\]\]/g, ':$1*') // replace [[...path]] with :path*
+      .replace(/\[\.\.\.([^\]]+)\]/g, ':$1+') // replace [...path] with :path+
       .replace(/\[([^\]]+)\]/g, ':$1') // replace [id] with :id
   )
 

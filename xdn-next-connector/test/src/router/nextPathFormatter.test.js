@@ -17,7 +17,11 @@ describe('nextPathFormatter', () => {
     })
 
     it('should support catch-all routes', () => {
-      expect(toRouteSyntax('apiReference/[...module]')).toBe('/apiReference/:module*')
+      expect(toRouteSyntax('apiReference/[...module]')).toBe('/apiReference/:module+')
+    })
+
+    it('should support optional catch-all routes', () => {
+      expect(toRouteSyntax('apiReference/[[...module]]')).toBe('/apiReference/:module*')
     })
 
     it('should accept an optional locale', () => {

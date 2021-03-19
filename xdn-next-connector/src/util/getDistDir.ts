@@ -16,5 +16,9 @@ export default function getDistDir() {
     // will get here if no next config file is present
   }
 
+  if (typeof nextConfig === 'function') {
+    nextConfig = nextConfig('phase-production-build', {})
+  }
+
   return nextConfig?.distDir || '.next'
 }

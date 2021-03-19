@@ -60,7 +60,11 @@ export default function createBuildEntryPoint({ srcDir, distDir, buildCommand }:
 
   return async function build(options: BuildOptions) {
     const { skipFramework } = options
-    const nextConfig = nonWebpackRequire(join(srcDirAbsolute, 'next.config.js'))
+    let nextConfig = nonWebpackRequire(join(srcDirAbsolute, 'next.config.js'))
+
+    if (typeof nextConfig === 'function') {
+      nextConfig = nextConfig('phase-production-build', {})
+    }
 
     builder.clearPreviousBuildOutput()
 
