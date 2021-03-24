@@ -43,4 +43,16 @@ describe('getDistDir', () => {
       expect(getDistDir()).toBe('.next')
     })
   })
+
+  describe('when config is a function', () => {
+    beforeAll(() => {
+      process.chdir(join(__dirname, '..', '..', 'apps', 'function'))
+    })
+    afterAll(() => {
+      process.chdir(cwd)
+    })
+    it('should return the distDir value', () => {
+      expect(getDistDir()).toBe('.next')
+    })
+  })
 })

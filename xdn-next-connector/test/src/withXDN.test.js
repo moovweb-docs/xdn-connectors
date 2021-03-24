@@ -16,7 +16,7 @@ describe('withXDN', () => {
 
   it('should call the provided webpack config', () => {
     const webpack = jest.fn()
-    const result = withXDN({ webpack })()
+    const result = withXDN({ webpack })
     const webpackConfig = { output: {}, optimization: {} }
     const options = { isServer: true, webpack: { version: '5.0.0' } }
     result.webpack(webpackConfig, options)
@@ -35,7 +35,7 @@ describe('withXDN', () => {
       process.env.NODE_ENV = 'production'
       const options = { isServer: true, webpack: { version: '4.0.0' } }
       const webpackConfig = { output: {}, optimization: {}, plugins: [] }
-      expect(() => withXDN({})().webpack(webpackConfig, options)).not.toThrowError()
+      expect(() => withXDN({}).webpack(webpackConfig, options)).not.toThrowError()
     } finally {
       process.env.NODE_ENV = NODE_ENV
     }
@@ -44,7 +44,7 @@ describe('withXDN', () => {
   it('should work without being provided a webpack function', () => {
     const webpackConfig = { output: {}, optimization: {}, plugins: [] }
     const options = { isServer: true, webpack: { version: '5.0.0' } }
-    expect(() => withXDN({})().webpack(webpackConfig, options)).not.toThrowError()
+    expect(() => withXDN({}).webpack(webpackConfig, options)).not.toThrowError()
   })
 
   it('should accept a function that returns a config', () => {
@@ -56,7 +56,7 @@ describe('withXDN', () => {
   it('should accept empty arguments', () => {
     const webpackConfig = { output: {}, optimization: {}, plugins: [] }
     const options = { isServer: true, webpack: { version: '5.0.0' } }
-    expect(() => withXDN()().webpack(webpackConfig, options)).not.toThrowError()
+    expect(() => withXDN().webpack(webpackConfig, options)).not.toThrowError()
   })
 
   it('does not add devtools install script in client entries', async () => {
@@ -67,7 +67,7 @@ describe('withXDN', () => {
       optimization: {},
       plugins: [],
     }
-    withXDN({})().webpack(webpackConfig, options)
+    withXDN({}).webpack(webpackConfig, options)
     expect(await webpackConfig.entry()).toEqual({ 'main.js': ['original-main'] })
   })
 
@@ -84,7 +84,7 @@ describe('withXDN', () => {
         optimization: {},
         plugins: [],
       }
-      withXDN({})().webpack(webpackConfig, options)
+      withXDN({}).webpack(webpackConfig, options)
       expect(await webpackConfig.entry()).toEqual({
         'main.js': ['@xdn/devtools/widget/install', 'original-main'],
       })
@@ -99,7 +99,7 @@ describe('withXDN', () => {
         optimization: {},
         plugins: [],
       }
-      withXDN({})().webpack(webpackConfig, options)
+      withXDN({}).webpack(webpackConfig, options)
       expect(await webpackConfig.entry()).toEqual({
         'main.js': ['@xdn/devtools/widget/install', 'original-main'],
       })
@@ -124,7 +124,7 @@ describe('withXDN', () => {
         optimization: {},
         plugins: [],
       }
-      expect(() => withXDN({})().webpack(webpackConfig, options)).toThrowError('boom')
+      expect(() => withXDN({}).webpack(webpackConfig, options)).toThrowError('boom')
     })
   })
 })

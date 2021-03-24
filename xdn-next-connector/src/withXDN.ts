@@ -24,7 +24,7 @@ export = function withXDN(_nextConfig: any) {
   const normalizedNextConfig =
     typeof _nextConfig === 'function' ? _nextConfig : () => _nextConfig || {}
 
-  return (...args: any[]): any => {
+  const plugin = (...args: any[]): any => {
     const nextConfig = normalizedNextConfig(...args)
 
     return {
@@ -90,6 +90,12 @@ export = function withXDN(_nextConfig: any) {
         return webpackConfig
       },
     }
+  }
+
+  if (typeof _nextConfig === 'function') {
+    return plugin
+  } else {
+    return plugin()
   }
 }
 

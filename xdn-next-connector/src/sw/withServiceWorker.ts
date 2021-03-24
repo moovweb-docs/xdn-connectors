@@ -24,7 +24,7 @@ export default function withServiceWorker(_nextConfig: any) {
   const normalizedNextConfig =
     typeof _nextConfig === 'function' ? _nextConfig : () => _nextConfig || {}
 
-  return (...args: any[]): any => {
+  const plugin = (...args: any[]): any => {
     const { workboxOpts, ...config } = normalizedNextConfig(...args)
 
     return withOffline({
@@ -55,5 +55,11 @@ export default function withServiceWorker(_nextConfig: any) {
       },
       ...config,
     })
+  }
+
+  if (typeof _nextConfig === 'function') {
+    return plugin
+  } else {
+    return plugin()
   }
 }
