@@ -35,6 +35,11 @@ export const toRouteSyntax = (
   }
 
   if (suffix) {
+    if (route === '') {
+      // the json data route for the homepage is a special case => index.json
+      route = 'index'
+    }
+
     return `/${route}.${suffix}`
   } else {
     return toCleanPath(route)
@@ -45,7 +50,7 @@ export function localize(locales: string[] | undefined, route: string) {
   if (locales) {
     return `/:locale(${locales.join('|')})?${route}`
       .replace(/\/$/, '') // remove trailing slash if one exists
-      .replace(/\)\?\/\.(json|html)$/, '|index).json') // accept index.json instead of {locale}.json for the default locale
+      .replace(/\)\?\/(index)?\.(json|html)$/, '|index).json') // accept index.json instead of {locale}.json for the default locale
   } else {
     return route
   }

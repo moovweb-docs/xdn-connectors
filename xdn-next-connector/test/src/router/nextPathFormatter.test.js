@@ -31,6 +31,10 @@ describe('nextPathFormatter', () => {
     it('should accept an optional suffix', () => {
       expect(toRouteSyntax('/foo', { suffix: 'json' })).toBe('/foo.json')
     })
+
+    it('should not remove index when the suffix is json', () => {
+      expect(toRouteSyntax('/', { suffix: 'json' })).toBe('/index.json')
+    })
   })
 
   describe('toCleanPath', () => {
